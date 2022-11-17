@@ -5,13 +5,6 @@ export interface ListItemModel {
     Url: string;
   };
   Application?: string;
-  Image?: {
-    type?: string;
-    fileName: string;
-    fieldName: string;
-    serverUrl: string;
-    fieldId: string;
-    serverRelativeUrl: string;
-  };
+  Image?: string;
   Date?: Date;
 }

@@ -11,12 +11,14 @@ import { spfi, SPFx } from "@pnp/sp";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
+import "@pnp/sp/fields/list";
 import * as strings from 'DisplayCollectionWebPartStrings';
 import DisplayCollection from './components/DisplayCollection';
 import { IDisplayCollectionProps } from './components/IDisplayCollectionProps';
 
 export interface IDisplayCollectionWebPartProps {
   listid: string;
+  wptitle: string;
 }
 
 export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDisplayCollectionWebPartProps> {
@@ -42,7 +44,8 @@ export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDis
         environmentMessage: this._environmentMessage,
         hasTeamsContext: !!this.context.sdks.microsoftTeams,
         userDisplayName: this.context.pageContext.user.displayName,
-        pnpsp: this.sp
+        pnpsp: this.sp,
+        wptitle: this.properties.wptitle
       }
     );
 
@@ -91,6 +94,9 @@ export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDis
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+                PropertyPaneTextField('wptitle', {
+                  label: "Web Part Title"
+                }),
                 PropertyPaneTextField('listid', {
                   label: strings.DescriptionFieldLabel
                 })

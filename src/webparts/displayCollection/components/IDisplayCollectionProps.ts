@@ -7,4 +7,5 @@ export interface IDisplayCollectionProps {
   hasTeamsContext: boolean;
   userDisplayName: string;
   pnpsp: SPFI;
+  wptitle: string;
 }

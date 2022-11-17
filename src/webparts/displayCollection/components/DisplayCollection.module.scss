@@ -8,27 +8,74 @@
   &.teams {
     font-family: $ms-font-family-fallbacks;
   }
-}
 
-.welcome {
-  text-align: center;
-}
+  .grid {
+    @include ms-Grid;
+  }
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
-}
+  .row {
+    @include ms-Grid-row;
+  }
+  .mslg3 {
+    @include ms-lg3;
+    display: block;
+  }
+  .mslg12 {
+    @include ms-lg12;
+  }
+  .column {
+    @include ms-Grid-col;
+    margin-bottom: 20px;
+  }
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
-
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+  .pagination {
+    .pager {
+        padding-left: 0;
+        margin: 20px 0;
+        text-align: center;
+        list-style: none;
+        li {
+            display: inline;
+            padding: 0px 10px;
+            button {
+                display: inline-block;
+                padding: 5px 14px;
+                background-color: $ms-color-themePrimary;
+                border: 1px solid #ddd;
+                border-radius: 15px;
+                color: #fff;
+                text-decoration: none;
+                &:disabled {
+                    background-color: $ms-color-neutralTertiary;
+                }
+            }
+        }
     }
   }
+
+  .status{
+    float:left
+  }
+
+  .filterStyle{
+    margin:10px;
+    width: 300px;
+  }
+
+  .panel {
+    border-color: #ddd;
+    margin-bottom: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-sizing: border-box;
+    .panelBody {
+        padding: 15px 0px;
+    }
+  }
+
 }
+
+
