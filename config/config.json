@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "display-collection-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/displayCollection/DisplayCollectionWebPart.js",
+          "manifest": "./src/webparts/displayCollection/DisplayCollectionWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "DisplayCollectionWebPartStrings": "lib/webparts/displayCollection/loc/{locale}.js"
+  }
+}

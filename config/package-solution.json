@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "item-listing-wp-client-side-solution",
+    "id": "6dbeb30c-af6b-4c23-b907-c6b9320ceaf5",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ItemListingWP description"
+      },
+      "longDescription": {
+        "default": "ItemListingWP description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "item-listing-wp Feature",
+        "description": "The feature that activates elements of the item-listing-wp solution.",
+        "id": "3310e698-e9ee-4052-b6b5-a29617fd2473",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/item-listing-wp.sppkg"
+  }
+}

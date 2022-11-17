@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.14.0",
+    "libraryName": "item-listing-wp",
+    "libraryId": "6dbeb30c-af6b-4c23-b907-c6b9320ceaf5",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "ItemListingWP",
+    "solutionShortDescription": "ItemListingWP description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
