@@ -6,5 +6,5 @@ export interface ListItemModel {
   };
   Application?: string;
   Image?: string;
-  Date?: Date;
+  LaunchDate?: Date;
 }

@@ -18,11 +18,17 @@
   "preconfiguredEntries": [{
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
-    "title": { "default": "DisplayCollection" },
-    "description": { "default": "DisplayCollection description" },
+    "title": { "default": "Product Catalogue" },
+    "description": { "default": "product catalogue description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "DisplayCollection"
+      "wptitle": "ProductCatalogue",
+      "field1": "",
+      "field2": "",
+      "field3": "",
+      "lists": "",
+      "pagingItems": ""
+      
     }
   }]
 }

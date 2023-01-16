@@ -17,7 +17,7 @@
     @include ms-Grid-row;
   }
   .mslg3 {
-    @include ms-lg3;
+    @include ms-lg4;
     display: block;
   }
   .mslg12 {
@@ -25,7 +25,25 @@
   }
   .column {
     @include ms-Grid-col;
-    margin-bottom: 20px;
+  }
+
+  .filters {
+    .filter {
+        padding-top: 0px;
+        padding-bottom: 15px;
+    }
+    .searchBox {
+        padding-top: 0px;
+        padding-bottom: 15px;
+        .searchBoxInputField {
+            padding: 0px;
+        }
+    }
+  }
+
+  .filterContainer {
+    display: flex;
+    justify-content: space-between;
   }
 
   .pagination {
@@ -58,6 +76,21 @@
   }
 
   .filterStyle{
+    margin:10px;
+    margin-top: 0px;
+    width: 300px;
+  }
+
+  .filterLabel{
+    display:'flex';
+    margin: 0; 
+    margin-left: 11px; 
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .searchBarStyle{
     margin:10px;
     width: 300px;
   }
