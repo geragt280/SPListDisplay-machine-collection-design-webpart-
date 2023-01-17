@@ -7,4 +7,5 @@ export interface ListItemModel {
   Application?: string;
   Image?: string;
   LaunchDate?: Date;
+  Classification: string;
 }

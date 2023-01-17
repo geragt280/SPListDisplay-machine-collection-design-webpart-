@@ -49,7 +49,10 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
           value: "Old to Newer"
         }
       ],
-      selectedSortItem: null
+      selectedSortItem: {
+        label: "New to Older", 
+        value: "New to Older"
+      }
     };
   }
 
@@ -86,6 +89,17 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
       totalPages: this.state.totalPages - 1
     });
     // console.log("items", items);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { field1, field2, field3, field4 } = this.props;
+    if (field1 !== prevProps.field1 || field2 != prevProps.field2 || field3 != prevProps.field3 || field4 != prevProps.field4 ) {
+      console.log("forced update", field1, field2, field3, field4);
+      if(field1 != "" && field2 != "" && field3 != "" && field4 != ""){
+        this.GetListItems();
+        this.GetChoiceFields();
+      }
+    }
   }
 
   private _SearchedTextChanged = (e) => {
@@ -219,7 +233,7 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
         marginBottom: 20
       }} 
       >
-        <ItemCard item={item} key={Guid.newGuid().toString()} field1={this.props.field1} field2={this.props.field2} field3={this.props.field3} />
+        <ItemCard item={item} key={Guid.newGuid().toString()} field1={this.props.field1} field2={this.props.field2} field3={this.props.field3} field4={this.props.field4} />
       </div>
     );
   }
@@ -251,7 +265,7 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
   }
 
   public render(): React.ReactElement<IDisplayCollectionProps> {
-  
+    const { field1, field2, field3, field4 } = this.props;
     return (
       <section className={css(styles.grid, styles.displayCollection)}>
         <h1>{this.props.wptitle != "" ? this.props.wptitle : "Webpart Title" }</h1>
@@ -277,7 +291,11 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
             </div>          
           </div>
           <div className={styles.row} >
-              {this.state.Items.map( currentItem => this.RenderPersonalCard(currentItem))}
+            {
+              field1 != "" && field2 != "" && field3 != "" && field4 != "" ? 
+                this.state.Items.map( currentItem => this.RenderPersonalCard(currentItem)) :
+                <></>
+            }
           </div>
           <div className={css(styles.row, styles.pagination)} >
             <div className={css(styles.column, styles.mslg12, styles.panel)}>

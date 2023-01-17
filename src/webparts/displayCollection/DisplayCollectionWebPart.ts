@@ -31,6 +31,7 @@ export interface IDisplayCollectionWebPartProps {
   field1: string;
   field2: string;
   field3: string;
+  field4: string;
 }
 
 export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDisplayCollectionWebPartProps> {
@@ -66,7 +67,8 @@ export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDis
           pagingItems: this.properties.pagingItems,
           field1: this.properties.field1,
           field2: this.properties.field2,
-          field3: this.properties.field3
+          field3: this.properties.field3,
+          field4: this.properties.field4
         }
       );
     }else{
@@ -83,7 +85,8 @@ export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDis
           pagingItems: this.properties.pagingItems,
           field1: this.properties.field1,
           field2: this.properties.field2,
-          field3: this.properties.field3
+          field3: this.properties.field3,
+          field4: this.properties.field4
         }
       );
     }
@@ -241,6 +244,12 @@ export default class DisplayCollectionWebPart extends BaseClientSideWebPart<IDis
                 }),
                 PropertyPaneDropdown('field3', {
                   label: "Select Date Column",
+                  options: this.DropdownItems,
+                  disabled: this.fieldDropdownDisabled,
+                  selectedKey: 1
+                }),
+                PropertyPaneDropdown('field4', {
+                  label: "Select Classification Column",
                   options: this.DropdownItems,
                   disabled: this.fieldDropdownDisabled,
                   selectedKey: 1

@@ -100,8 +100,18 @@ export default class ItemCard extends React.Component<IItemCardProps, IItemCardS
             <Text className={styles.headingText}> Application </Text>
             <Text className={styles.textStyle} >{this.state.Item[this.props.field2]}</Text>
 
-            <Text className={styles.headingText}> Launch Date </Text>
-            <Text className={styles.textStyle} >{this.MOMENT_DATE}</Text>
+            <div className={styles.msGridClass}>
+              <div className={styles.msGridRow}>
+                  <div className={[styles['msGridCol'], styles['bottomFirstCol']].join(" ")}>
+                    <Text className={styles.headingText}> Launch Date </Text>
+                    <Text className={styles.textStyle} >{this.MOMENT_DATE}</Text>
+                  </div>
+                  <div className={[styles['msGridCol'], styles['bottomFirstCol']].join(" ")}>
+                    <Text className={styles.headingText}> Classification </Text>
+                    <Text className={styles.textStyle} >{this.state.Item[this.props.field4]}</Text>
+                  </div>
+              </div>
+          </div>
         </div> :
         <></>
       } 

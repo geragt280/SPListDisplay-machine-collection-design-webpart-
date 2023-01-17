@@ -53,5 +53,29 @@
         border: 0px;
     }
   }
+
+  .msGridClass {
+    @include ms-Grid;
+  }
+
+  .msGridRow{
+    @include ms-Grid-row;
+  }
+
+  .msGridCol{
+    @include ms-Grid-col;
+  }
+
+  .bottomFirstCol{
+    @include ms-sm6;
+    @include ms-md6;
+    padding-left: 0px;
+  }
+
+  .bottomSecondCol{
+    @include ms-sm6;
+    @include ms-md6;
+    padding-left: 0px;
+  }
 }
 
