@@ -76,13 +76,13 @@ export default class ItemCard extends React.Component<IItemCardProps, IItemCardS
               <Text className={styles.textStyle} >{this.MOMENT_DATE}</Text>
           </div> :
           <></>
-        } 
+        }
         </a>
       );
     }
     return (
       <a href={this.state.Item.Link.Url} style={{textDecoration:"none", color:'#000000'}} target='blank'>
-        {(this.props.field1 != undefined && this.props.field2 != undefined && this.props.field3 != undefined && this.props.field1 != "" && this.props.field2 != "" && this.props.field3 != "") ?
+        {(this.props.field1 != undefined && this.props.field2 != undefined && this.props.field3 != undefined && this.props.field4 != undefined && this.props.field1 != "" && this.props.field2 != "" && this.props.field4 != "") ?
         <div 
           className={styles.itemCard}
         >
@@ -103,7 +103,7 @@ export default class ItemCard extends React.Component<IItemCardProps, IItemCardS
             <div className={styles.msGridClass}>
               <div className={styles.msGridRow}>
                   <div className={[styles['msGridCol'], styles['bottomFirstCol']].join(" ")}>
-                    <Text className={styles.headingText}> Launch Date </Text>
+                    <Text className={styles.headingText}> Date </Text>
                     <Text className={styles.textStyle} >{this.MOMENT_DATE}</Text>
                   </div>
                   <div className={[styles['msGridCol'], styles['bottomFirstCol']].join(" ")}>

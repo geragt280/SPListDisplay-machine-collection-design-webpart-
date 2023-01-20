@@ -75,19 +75,38 @@
     float:left
   }
 
-  .filterStyle{
+  .filterColumnStyle{
+    margin-top: 0px;
+    width: 250px;
+  }
+
+  .filterOptionsStyle{
+    margin-top: 0px;
+    width: 250px;
+  }
+
+  .dateSortStyle{
     margin:10px;
     margin-top: 0px;
     width: 300px;
   }
 
+  .choiceFieldStyle{
+    div {
+      margin: 1px; 
+      margin-left: 2px;
+      margin-right: 2px;
+    }
+  }
+
   .filterLabel{
     display:'flex';
     margin: 0; 
-    margin-left: 11px; 
+    margin-left: 9px; 
     font-weight: 600;
     margin-top: 10px;
-    margin-bottom: 5px;
+    padding-top: 5px;
+    margin-bottom: 3px;
   }
 
   .searchBarStyle{
