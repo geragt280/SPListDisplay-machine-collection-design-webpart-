@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './DisplayCollection.module.scss';
 import { IDisplayCollectionProps } from './IDisplayCollectionProps';
-import { Check, css, PrimaryButton, TextField,  ChoiceGroup, IChoiceGroupOption  } from 'office-ui-fabric-react';
+import { css, PrimaryButton, TextField } from 'office-ui-fabric-react';
 import { ListItemModel } from './ListItemModel';
 import ItemCard from './ItemCard/ItemCard';
 import { Guid } from '@microsoft/sp-core-library';
@@ -14,9 +14,10 @@ interface DisplayCollectionStates {
   totalPages: number;
   selectedFilterColumn: { value?:string, label?:string };
   selectedFilterOptions: { value?:string, label?:string };
+  selectedSortColumn: { value?:string, label?:string };
   filterItems: { value?:string, label?:string }[];
+  sortOptionItems: { value?:string, label?:string }[];
   selectedSortItem: { value?:string, label?:string };
-  selectedAlphaOrder: IChoiceGroupOption;
   searchedText: string;
   pagingContext: PagedItemCollection<ListItemModel[]>;
   pagingContextArray: PagedItemCollection<ListItemModel[]>[];
@@ -33,8 +34,12 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
       totalPages: 1,
       selectedFilterColumn: null,
       selectedFilterOptions: null,
-      selectedAlphaOrder: null,
+      selectedSortColumn: {
+        label: "Date", 
+        value: this.props.field3
+      },
       filterItems: [],
+      sortOptionItems: [],
       searchedText: "",
       pagingContext: null,
       pagingContextArray: [],
@@ -57,7 +62,7 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
       value: this.props.field4
     }
   ]
-  private sortItems = [
+  private sortByDateItems = [
     {
       label: "None", 
       value: "None"
@@ -71,14 +76,21 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
       value: "Old to Newer"
     }
   ];
-  private choiceOptions: IChoiceGroupOption[] = [
-    { key: 'Ascending', text: 'A-Z' },
-    { key: 'Descending', text: 'Z-A' }
+  private sortColumnItems = [
+    {
+      label: "Title", 
+      value: this.props.field1
+    },
+    {
+      label: "Date", 
+      value: this.props.field3
+    }
   ];
-
-  _onChoiceChange(ev: React.FormEvent<HTMLInputElement>, option: IChoiceGroupOption): void {
-    console.dir(option.key);
-  }
+  private sortByAlphaItems = [
+    { label: 'None', value: 'None' },
+    { value: 'Ascending', label: 'A-Z' },
+    { value: 'Descending', label: 'Z-A' }
+  ];
 
   private async  _onClickNext(){
     console.log("Next");
@@ -141,12 +153,14 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
   }
 
   GetListItems = async () => {
+    const { selectedSortItem, selectedSortColumn } = this.state;
     const listInfo = await this.props.pnpsp.web.lists.getById(this.SPLIST_ID);
     let items: PagedItemCollection<ListItemModel[]> = null;
-    if (this.state.selectedSortItem != null) {
-      if (this.state.selectedSortItem.value != "None") {
-        let ascendingOrder = this.state.selectedSortItem.label === "Old to Newer";
-        items = await listInfo.items.top(this.SPLISTPAGINGCOUNT).orderBy(this.props.field3, ascendingOrder).getPaged();
+    if (selectedSortItem != null) {
+      if (selectedSortItem.value != "None") {
+        let ascendingOrder = selectedSortItem.value === "Old to Newer" || selectedSortItem.value === "Ascending";
+        console.log("Ascending Order", ascendingOrder);
+        items = await listInfo.items.top(this.SPLISTPAGINGCOUNT).orderBy(selectedSortColumn.value === "Title" ? this.props.field1 : this.props.field3, ascendingOrder).getPaged();
       }
       else
         items = await listInfo.items.top(this.SPLISTPAGINGCOUNT).getPaged();
@@ -182,14 +196,16 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
 
   GetSearchItems = async (searchName) => {
     // console.log("searchName", searchName);
+    const { selectedSortItem, selectedSortColumn } = this.state;
 
     if (searchName != null && searchName != "") {
       const listInfo = await this.props.pnpsp.web.lists.getById(this.SPLIST_ID);
       let items: PagedItemCollection<ListItemModel[]> = null;
-      if (this.state.selectedSortItem != null) {
-        if (this.state.selectedSortItem.value != "None") {
-          let ascendingOrder = this.state.selectedSortItem.label === "Old to Newer";
-          items = await listInfo.items.filter(`substringof('${searchName}', Title)`).orderBy(this.props.field3, ascendingOrder).top(this.SPLISTPAGINGCOUNT).getPaged();  
+      if (selectedSortItem != null) {
+        if (selectedSortItem.value != "None") {
+          let ascendingOrder = selectedSortItem.label === "Old to Newer" || selectedSortItem.value === "Ascending";
+          console.log("Ascending Order", ascendingOrder);
+          items = await listInfo.items.filter(`substringof('${searchName}', Title)`).orderBy(selectedSortColumn.value === "Title" ? this.props.field1 : this.props.field3, ascendingOrder).top(this.SPLISTPAGINGCOUNT).getPaged();  
         }
         else
           items = await listInfo.items.filter(`substringof('${searchName}', Title)`).top(this.SPLISTPAGINGCOUNT).getPaged();
@@ -213,20 +229,21 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
   }
 
   GetFilteredItems = async (filterName) => {
+    const { selectedSortItem, selectedFilterColumn, selectedSortColumn } = this.state;
     // console.log("filtername", filterName);
     // console.log("Sorted item", this.state.selectedSortItem);
     if (filterName != null) {
       const listInfo = await this.props.pnpsp.web.lists.getById(this.SPLIST_ID);
       let items: PagedItemCollection<ListItemModel[]> = null;
-      if(this.state.selectedSortItem != null){
-        if (this.state.selectedSortItem.value != "None") {
-          let ascendingOrder = this.state.selectedSortItem.label === "Old to Newer";
+      if(selectedSortItem != null){
+        if (selectedSortItem.value != "None") {
+          let ascendingOrder = selectedSortItem.label === "Old to Newer" || selectedSortItem.value === "Ascending";
           console.log("Ascending Order", ascendingOrder);
-          items = await listInfo.items.filter(`${this.state.selectedFilterColumn.label} eq '${filterName.label}'`).orderBy(this.props.field3, ascendingOrder).top(this.SPLISTPAGINGCOUNT).getPaged(); 
+          items = await listInfo.items.filter(`${selectedFilterColumn.label} eq '${filterName.label}'`).orderBy(selectedSortColumn.value == "Title" ? this.props.field1 : this.props.field3, ascendingOrder).top(this.SPLISTPAGINGCOUNT).getPaged(); 
         }else
-          items = await listInfo.items.filter(`${this.state.selectedFilterColumn.label} eq '${filterName.label}'`).top(this.SPLISTPAGINGCOUNT).getPaged();          
+          items = await listInfo.items.filter(`${selectedFilterColumn.label} eq '${filterName.label}'`).top(this.SPLISTPAGINGCOUNT).getPaged();          
       }else{
-        items = await listInfo.items.filter(`${this.state.selectedFilterColumn.label} eq '${filterName.label}'`).top(this.SPLISTPAGINGCOUNT).getPaged();
+        items = await listInfo.items.filter(`${selectedFilterColumn.label} eq '${filterName.label}'`).top(this.SPLISTPAGINGCOUNT).getPaged();
       }
       // console.log("List information", items.results);
       this.setState({
@@ -240,7 +257,29 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
     else{
       this.GetListItems();
     }
-  
+  }
+
+  onSortColumnChange = (newValue) => {
+    console.log("sort column", newValue);
+    if (newValue != null) {
+      if (newValue.value == "Title") {
+        this.setState({ 
+          selectedSortColumn : newValue,
+          sortOptionItems: this.sortByAlphaItems,
+          selectedSortItem: null
+        })
+      }else{
+        this.setState({ 
+          selectedSortColumn : newValue,
+          sortOptionItems: this.sortByDateItems,
+          selectedSortItem: null
+        })
+      }
+    }else
+      this.setState({ 
+        selectedSortColumn : null,
+        selectedSortItem: null 
+      })
   }
 
   private RenderPersonalCard = (item) => {
@@ -279,23 +318,40 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
   }
 
   private onSortChange = (e : {label:string; value:string}) => {
-    // console.log("sort action", e);
+    console.log("sort value", e);
+    if (e == null) {
+      this.setState({
+        selectedSortColumn: null,
+        selectedSortItem: null
+      },
+      ()=>{
+        this.AfterSortStateChange();
+      })
+    }
+    else{
+      this.setState({
+        selectedSortItem: e,
+      },
+      ()=>{
+        this.AfterSortStateChange();
+      });
+    }
+  }
 
-    this.setState({
-      selectedSortItem: e
-    });
-    
-    if (this.state.selectedFilterOptions != null) {
-      this.GetFilteredItems(this.state.selectedFilterOptions)
-    }else if (this.state.searchedText != "" && this.state.searchedText != null) {
+  AfterSortStateChange(){
+    const { selectedFilterOptions, searchedText } = this.state;
+    if (selectedFilterOptions != null) {
+      this.GetFilteredItems(selectedFilterOptions)
+    }else if (searchedText != "" && searchedText != null) {
       // console.log("Searched item sort");
-      this.GetSearchItems(this.state.searchedText);
+      this.GetSearchItems(searchedText);
     }else
-      this.GetListItems();
+      this.GetListItems(); 
   }
 
   public render(): React.ReactElement<IDisplayCollectionProps> {
     const { field1, field2, field3, field4 } = this.props;
+    const { selectedSortColumn, sortOptionItems } = this.state;
     return (
       <section className={css(styles.grid, styles.displayCollection)}>
         <h1>{this.props.wptitle != "" ? this.props.wptitle : "Webpart Title" }</h1>
@@ -311,16 +367,14 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
                 </div>
                 <div className={styles.row}>
                   <p className={styles.filterLabel}>Filter</p>
-                  <Select options={this.FilterColumnOptions}  className={css(styles.filterColumnStyle, styles.column)} onChange={this.onFilterColumnChange} placeholder='Select Filtering Column' isClearable={false} value={this.state.selectedFilterColumn}/>
-                  <Select options={this.state.filterItems}  className={css(styles.filterOptionsStyle, styles.column)} onChange={this.onFilterOptionChange} placeholder='Select Option' isClearable={true} isDisabled={this.state.selectedFilterColumn== null} value={this.state.selectedFilterOptions}/>
+                  <Select options={this.FilterColumnOptions}  className={css(styles.filterColumnStyle, styles.column)} onChange={this.onFilterColumnChange} placeholder='Select Filtering Column' isClearable={false} value={this.state.selectedFilterColumn} />
+                  <Select options={this.state.filterItems}  className={css(styles.filterOptionsStyle, styles.column)} onChange={this.onFilterOptionChange} placeholder='Filter Options' isClearable={true} isDisabled={this.state.selectedFilterColumn== null} value={this.state.selectedFilterOptions} />
                 </div>
-                <div>
-                  <p className={styles.filterLabel}>Sort by date</p>
-                  <Select options={this.sortItems}  className={styles.dateSortStyle} onChange={this.onSortChange} placeholder='Sort type' isClearable={true} value={this.state.selectedSortItem}/>
+                <div className={styles.row}>
+                  <p className={styles.filterLabel}>Sort by</p>
+                  <Select options={this.sortColumnItems}  className={css(styles.dateSortStyle, styles.column)} onChange={this.onSortColumnChange} placeholder='Sort Column'  isClearable={false} value={this.state.selectedSortColumn} />
+                  <Select options={sortOptionItems}  className={css(styles.dateSortStyle, styles.column)} onChange={this.onSortChange} placeholder='Sort Options' isClearable={true}  isDisabled={this.state.selectedSortColumn == null} value={this.state.selectedSortItem} />
                 </div>
-              </div> 
-              <div>
-              <ChoiceGroup defaultSelectedKey="Ascending" className={styles.choiceFieldStyle} options={this.choiceOptions} onChange={this._onChoiceChange} label="Sort" styles={{flexContainer:{display:'flex'}, label:{paddingLeft:7, paddingBottom: 0}}} style={{width:200}}/>
               </div> 
             </div>        
           </div>
