@@ -23,6 +23,23 @@
     text-overflow: ellipsis;
   }
 
+  .classificationTextStyleWithBackground{
+    margin-left: 5px;
+    padding: 5px;
+    margin-top: 1px;
+    font-weight: 400;
+    width: 40px;
+    border-radius: 20px;
+    background-color: #008683;
+    color: #fff;
+    text-align: center;
+    max-height: 70px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .headingText{
     margin-left: 5px;
     padding: 5px;

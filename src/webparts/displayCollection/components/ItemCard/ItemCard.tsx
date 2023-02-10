@@ -108,7 +108,10 @@ export default class ItemCard extends React.Component<IItemCardProps, IItemCardS
                   </div>
                   <div className={[styles['msGridCol'], styles['bottomFirstCol']].join(" ")}>
                     <Text className={styles.headingText}> Classification </Text>
-                    <Text className={styles.textStyle} >{this.state.Item[this.props.field4]}</Text>
+                    {this.state.Item[this.props.field4] == "New" ?
+                      <Text className={styles.classificationTextStyleWithBackground} >{this.state.Item[this.props.field4]}</Text> :
+                      <Text className={styles.textStyle} >{this.state.Item[this.props.field4]}</Text>
+                    }                    
                   </div>
               </div>
           </div>
