@@ -93,7 +93,9 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
   ];
 
   private async  _onClickNext(){
-    console.log("Next");
+    const element = document.getElementById('scroll'); // Replace with your element's ID
+    console.log("Next", element);
+    element.scrollIntoView({behavior:'smooth'});
 
     //pushing current pagingContext into pagingContext array state
     this.state.pagingContextArray.push(this.state.pagingContext)
@@ -133,6 +135,7 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
         this.GetChoiceFields();
       }
     }
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   private _SearchedTextChanged = (e) => {
@@ -354,11 +357,12 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
     const { selectedSortColumn, sortOptionItems } = this.state;
     return (
       <section className={css(styles.grid, styles.displayCollection)}>
-        <h1>{this.props.wptitle != "" ? this.props.wptitle : "Webpart Title" }</h1>
+        <h1 id='scroll'>{this.props.wptitle != "" ? this.props.wptitle : "Webpart Title" }</h1>
                 
         <div 
         // style={{width:1405}}
         >
+          {/* Filter div start */}
           <div className={css(styles.row, styles.filters)}>
             <div className={css(styles.column, styles.mslg12, styles.panel)}>
               <div className={styles.filterContainer}>
@@ -378,13 +382,17 @@ export default class DisplayCollection extends React.Component<IDisplayCollectio
               </div> 
             </div>        
           </div>
-          <div className={styles.row} >
+          {/* Filter div end */}
+          
+          {/* Products div start */}
+          <div className={css(styles.row)} >
             {
               field1 != "" && field2 != "" && field3 != "" && field4 != "" ? 
                 this.state.Items.map( currentItem => this.RenderPersonalCard(currentItem)) :
                 <></>
             }
           </div>
+          {/* Products div end */}
           <div className={css(styles.row, styles.pagination)} >
             <div className={css(styles.column, styles.mslg12, styles.panel)}>
               <div className={styles.panelBody}>
